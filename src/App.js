@@ -6,7 +6,7 @@ import HomePage from './pages/homepage/homepage';
 import ShopPage from './pages/shop/shop';
 import Header from './components/header/header';
 import SignPage from './pages/sign-page/sign-page';
-import { auth } from './firebase/firebase.utils';
+import { auth, createUserProfileDocument  } from './firebase/firebase.utils';
 
 
 
@@ -22,10 +22,26 @@ class App extends React.Component {
   unsubscribeFromAuth = null;
   
   componentDidMount() {
-    this.unsubscribeFromAuth = auth.onAuthStateChanged(user => {
-      this.setState({currentUser: user});
+    // checking if the user is exist or not
+    this.unsubscribeFromAuth = auth.onAuthStateChanged(async userAuth => {
+      // check if the user is null or not
+      if(userAuth) {
+      const userRef = await createUserProfileDocument(userAuth);
 
-      console.log(user)
+      /* take a snapshot from the document properties which contain the user data that we need
+      and then assign it to the current user state
+      */
+      userRef.onSnapshot(snapShot => {
+        this.setState({
+          currentUser : {
+            id: snapShot.id,
+            ...snapShot.data()
+          }
+        })
+      })
+      } else {
+        this.setState({currentUser: userAuth});
+      }
     })
   }
 

@@ -13,6 +13,36 @@ const config = {
     appId: "1:620122127582:web:008d23cbd7aabe8bec164f"
   };
 
+  //extracting user information from google auth parameters.
+  export const createUserProfileDocument = async (userAuth, additionalData) =>{
+    if(!userAuth) return;
+
+// the path of the collection that will check for the user id in firebase database
+    const userRef = firestore.doc(`users/${userAuth.uid}`)
+
+    // will get a snapshot for the object about that user we did a check on
+    const snapShot = await userRef.get();
+
+    // if the property exists is false then we will store specific data in the database
+    if(!snapShot.exists) {
+      const {displayName, email} = userAuth;
+      const createdAt = new Date();
+      
+      try {
+        await userRef.set({
+          displayName,
+          email,
+          createdAt,
+          ...additionalData
+        })
+      } catch (error) {
+        console.log('error creating user', error.message)
+      }
+    }
+    return userRef;
+  }
+
+
   firebase.initializeApp(config);
 
 // exporting the firebase functions that we can use later
