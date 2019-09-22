@@ -1,3 +1,8 @@
+
+/*
+function to avoid adding the same item to the state muliple time
+so that the function will just increase the quantity of the item
+*/
 export const addItemToCart = (cartItems, cartItemToAdd) => {
     const existCartItem = cartItems.find(cartItem => cartItem.id === cartItemToAdd.id)
 
