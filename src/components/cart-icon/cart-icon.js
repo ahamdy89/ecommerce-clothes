@@ -6,10 +6,10 @@ import {ReactComponent as BagIcon} from '../../assets/cart-bag.svg';
 import './cart-icon.scss';
 
 
-const CartIcon = ({toggleCart}) => (
+const CartIcon = ({toggleCart, itemCount}) => (
     <div className="cart-icon" onClick={toggleCart}>
         <BagIcon className="bag-icon"/>
-        <span className="item-count">0</span>
+        <span className="item-count">{itemCount}</span>
     </div>
 );
 
@@ -17,5 +17,10 @@ const mapDispatchToProps = dispatch => ({
     toggleCart : ()=> dispatch(toggleCart())
 });
 
+const mapStateToProps = ({cart: {cartItems}}) => ({
+    itemCount: cartItems.reduce(
+        (accumalatedQuantity, cartItem) => accumalatedQuantity + cartItem.quantity, 0
+    )
+})
 
-export default connect(null, mapDispatchToProps)(CartIcon);
+export default connect(mapStateToProps, mapDispatchToProps)(CartIcon);
