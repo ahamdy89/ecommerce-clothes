@@ -4,7 +4,6 @@ import {createStructuredSelector} from 'reselect';
 import {selectCartItems, selectCartTotal} from '../../redux/cart/cart.selectors';
 
 import './checkout.scss';
-import CartItem from '../../components/cart-item/cart-item';
 import CheckoutItem from '../../components/checkout-item/checkout-item';
 
 
