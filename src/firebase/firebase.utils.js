@@ -13,6 +13,8 @@ const config = {
     appId: "1:620122127582:web:008d23cbd7aabe8bec164f"
   };
 
+  firebase.initializeApp(config);
+
   //extracting user information from google auth parameters.
   export const createUserProfileDocument = async (userAuth, additionalData) =>{
     if(!userAuth) return;
@@ -40,10 +42,37 @@ const config = {
       }
     }
     return userRef;
-  }
+  };
 
 
-  firebase.initializeApp(config);
+  /* a function to add any static data we have in the project to the firebase database
+  without do it manually
+  */
+ 
+  export const addCollectionAndDocuments = async (collectionKey, objectsToAdd) => {
+    const collectionRef = firestore.collection(collectionKey);
+    console.log(collectionRef);
+
+    /* batch will take all sets requests and make it into on big request 
+    to avoid connection fail in the middle of set process
+    */
+    const batch = firestore.batch();
+
+    // will loop into objectsToAdd to set each key indpendendly cause firebase make only on set per request
+
+    objectsToAdd.forEach(obj => {
+      // create collections docs with unique id 
+      const newDocRef = collectionRef.doc();
+     
+      // set values docs values using newDocRef using batch
+      batch.set(newDocRef, obj)
+    });
+
+    // fire the batch request
+    return await batch.commit()
+  };
+
+
 
 // exporting the firebase functions that we can use later
   export const auth = firebase.auth();
