@@ -1,9 +1,9 @@
 import ShopActionTypes from './shop.types';
-import { firestore, convertCollectionsSnapshotToMap } from '../../firebase/firebase.utils';
+// import { firestore, convertCollectionsSnapshotToMap } from '../../firebase/firebase.utils';
 
 
 export const fetchCollectionsStart = () => ({
-    type: ShopActionTypes.FETCH_COLLECTIONS_START,
+    type: ShopActionTypes.FETCH_COLLECTIONS_START
 })
 
 export const fetchCollectionsSucccess = (collectionsMap) => ({
@@ -16,14 +16,14 @@ export const fetchCollectionsFAILURE = (errorMessage) => ({
     payload: errorMessage
 })
 
-export const fetchCollectionsStartAsync = () => {
-    return dispatch => {
-        const collectionRef = firestore.collection('collections');
-        dispatch(fetchCollectionsStart());
+// export const fetchCollectionsStartAsync = () => {
+//     return dispatch => {
+//         const collectionRef = firestore.collection('collections');
+//         dispatch(fetchCollectionsStart());
 
-        collectionRef.get().then(snapshot => {
-           const collectionsMap =  convertCollectionsSnapshotToMap(snapshot);
-           dispatch(fetchCollectionsSucccess(collectionsMap));
-         }).catch(error => dispatch(fetchCollectionsFAILURE(error.message)))
-    }
-}
+//         collectionRef.get().then(snapshot => {
+//            const collectionsMap =  convertCollectionsSnapshotToMap(snapshot);
+//            dispatch(fetchCollectionsSucccess(collectionsMap));
+//          }).catch(error => dispatch(fetchCollectionsFAILURE(error.message)))
+//     }
+// }
