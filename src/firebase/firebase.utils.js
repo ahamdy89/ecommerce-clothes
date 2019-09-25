@@ -72,7 +72,23 @@ const config = {
     return await batch.commit()
   };
 
+// convert the snapshot collection to object instead of Array
+  export const convertCollectionsSnapshotToMap = (collections) => {
+    const transformedCollection = collections.docs.map(doc => {
+      const {title, items} = doc.data();
 
+      return {
+        routeName: encodeURI(title.toLowerCase()),
+        id: doc.id,
+        title,
+        items
+      }
+    });
+    return transformedCollection.reduce((accumlator, collection)=> {
+      accumlator[collection.title.toLowerCase()] = collection;
+      return accumlator
+    }, {});
+  };
 
 // exporting the firebase functions that we can use later
   export const auth = firebase.auth();
