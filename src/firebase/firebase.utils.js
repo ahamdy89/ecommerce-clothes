@@ -90,6 +90,15 @@ const config = {
     }, {});
   };
 
+  export const getCurrentUser = () => {
+    return new Promise ((resolve, reject) => {
+      const unsubscribe = auth.onAuthStateChanged(userAuth => {
+        unsubscribe();
+        resolve(userAuth);
+      }, reject)
+    })
+  }
+
 // exporting the firebase functions that we can use later
   export const auth = firebase.auth();
   export const firestore = firebase.firestore();
