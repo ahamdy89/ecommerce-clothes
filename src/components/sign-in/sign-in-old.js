@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { Component } from 'react';
 import FormInput from '../form-input/form-input';
 import {connect} from 'react-redux';
 
@@ -6,34 +6,45 @@ import './sign-in.scss';
 import CustomButton from '../custom-button/custom-button';
 import { googleSignInStart, emailSignInStart } from '../../redux/user/user.action';
 
-const SignIN = ({emailSignInStart, googleSignInStart}) => {
-    const [userCredentials, setCredentials] = useState({email:'', password: ''})
-    
-    const {email, password} = userCredentials;
+class SignIN extends Component {
+    constructor(props) {
+        super(props);
+
+        this.state = {
+            email: '',
+            password: ''
+        }
+    }
 
 
-    const handleSubmit = async event => {
+    handleSubmit = async event => {
         event.preventDefault();
+        const {emailSignInStart} = this.props;
+        const {email, password} = this.state;
 
         emailSignInStart(email, password);
+
+
     }
 
-    const handleChange = event => {
+    handleChange = event => {
         const {value, name} = event.target;
-        setCredentials({...userCredentials,[name]:value})
+        this.setState({[name]:value})
     }
 
+    render() {
+        const {googleSignInStart} = this.props;
         return (
             <div className="sign-in">
                 <h2>I already have an account</h2>
                 <span>Sign in with your email and password</span>
 
-                <form onSubmit={handleSubmit}>
+                <form onSubmit={this.handleSubmit}>
                     <FormInput 
                     name="email" 
                     type="email" 
-                    value={email}
-                    handleChange={handleChange}
+                    value={this.state.email}
+                    handleChange={this.handleChange}
                     label="email"
                     required/>
 
@@ -41,8 +52,8 @@ const SignIN = ({emailSignInStart, googleSignInStart}) => {
                     <FormInput 
                     name="password" 
                     type="password" 
-                    value={password} 
-                    handleChange={handleChange}
+                    value={this.state.password} 
+                    handleChange={this.handleChange}
                     label="password"
                     required/>
 
@@ -54,6 +65,7 @@ const SignIN = ({emailSignInStart, googleSignInStart}) => {
             </div>
         );
     }
+}
 
 
 
