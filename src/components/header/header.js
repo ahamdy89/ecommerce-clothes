@@ -1,7 +1,7 @@
 import React from 'react';
 import {Link} from 'react-router-dom';
 import {connect} from 'react-redux';
-import {ReactComponent as Logo} from '../../assets/logo.svg';
+import {ReactComponent as Logo} from '../../assets/react.svg';
 import {createStructuredSelector} from 'reselect';
 
 import {selectCurrentUser} from '../../redux/user/user.selectors';
