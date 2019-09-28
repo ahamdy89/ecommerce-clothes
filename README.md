@@ -1,3 +1,20 @@
+This project has been created using Reactjs and many other libraries.
+
+libraries used are :
+- React Router Dom
+- Firebase " for database and user authentication
+- Redux " Thunk then changed to Saga "
+- Redux persist " For sessions "
+- Redux selectors
+- Stripe Payments " For checkout payment process "
+- Heroku " for production deployment "
+- Redux Hooks
+
+-- I am still working on the project and trying to add new methods, the libraries will be updated once new feature will be available--
+
+
+
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts
