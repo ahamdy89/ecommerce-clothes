@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { Component } from 'react';
 import {connect} from 'react-redux';
 import FormInput from '../form-input/form-input';
 import CustomButton from '../custom-button/custom-button';
@@ -7,20 +7,24 @@ import {signUpStart} from '../../redux/user/user.action';
 import './sign-up.scss';
 
 
-const SignUp = ({signUpStart}) => {
+class SignUp extends Component {
+    constructor() {
+        super();
 
-    const [userCredentials, setUserCredentials] = useState({
-        displayName: '',
-        email: '',
-        password: '',
-        confirmPassword: ''
-    })
+        this.state = {
+            displayName: '',
+            email: '',
+            password: '',
+            confirmPassword: ''
+        }
+    }
 
 
-    const { displayName, email, password, confirmPassword} = userCredentials;
 
-    const handlSubmit = async event => {
+    handlSubmit = async event => {
         event.preventDefault();
+        const {signUpStart} = this.props;
+        const { displayName, email, password, confirmPassword} = this.state;
 
         if(password !== confirmPassword) {
             alert ("passwords don't match")
@@ -31,22 +35,24 @@ const SignUp = ({signUpStart}) => {
 
 
 
-    const handleChange = event => {
+    handleChange = event => {
         const {name, value} = event.target;
-        setUserCredentials({...userCredentials, [name]: value});
+        this.setState({[name]: value});
     }
 
 
+    render() {
+        const { displayName, email, password, confirmPassword} = this.state;
         return (
             <div className="sign-up">
                 <h2 className="title">I do not have an account</h2>
                 <span>Sign up with your email and password</span>
-                <form className="sign-up-form" onSubmit={handlSubmit}>
+                <form className="sign-up-form" onSubmit={this.handlSubmit}>
                     <FormInput
                     type="text"
                     name="displayName"
                     value= {displayName}
-                    onChange= {handleChange}
+                    onChange= {this.handleChange}
                     label="Display Name"
                     required
                     />
@@ -54,7 +60,7 @@ const SignUp = ({signUpStart}) => {
                     type="email"
                     name="email"
                     value= {email}
-                    onChange= {handleChange}
+                    onChange= {this.handleChange}
                     label="E-mail"
                     required
                     />
@@ -62,7 +68,7 @@ const SignUp = ({signUpStart}) => {
                     type="password"
                     name="password"
                     value= {password}
-                    onChange= {handleChange}
+                    onChange= {this.handleChange}
                     label="Password"
                     required
                     />
@@ -70,7 +76,7 @@ const SignUp = ({signUpStart}) => {
                     type="password"
                     name="confirmPassword"
                     value= {confirmPassword}
-                    onChange= {handleChange}
+                    onChange= {this.handleChange}
                     label="Confirm Password"
                     required
                     />
@@ -78,6 +84,7 @@ const SignUp = ({signUpStart}) => {
                 </form>
             </div>
         );
+    }
 }
 
 
